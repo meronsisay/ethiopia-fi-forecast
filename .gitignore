@@ -44,6 +44,7 @@ models/*.h5
 #data
 data/raw/*
 data/processed/
+!data/raw/ethiopia_fi_unified_data.csv
 
 # NOTE: data/raw and data/processed are intentionally NOT ignored.
 # The enriched dataset (data/raw/ethiopia_fi_unified_data.csv) and the
