@@ -29,3 +29,37 @@ confidence rating, and the reasoning for why it's useful. `add_record()` and
 top to bottom without ever creating duplicate rows or duplicate log entries.
 
 **Run time:** ~30 seconds
+
+## Exploratory Data Analysis
+
+*Overview.* `notebooks/eda.ipynb` summarizes the enriched dataset (73 records) by
+record_type/pillar/source_type, builds a temporal coverage heatmap (indicator × year) to
+show exactly where the data is thin, plots the confidence-level distribution, and explicitly
+lists the 21 of 29 indicators that have only a single observation — no trend possible for those
+without further enrichment.
+
+*Access.* Plots the account ownership trajectory (2014–2024) and the growth rate between each
+survey round. Investigates the 2021→2024 slowdown (+3pp despite tens of millions of new mobile
+money accounts) using the registered-vs-active gap from Task 1: ~90M registered mobile accounts
+(≈120 per 100 adults) against Findex's 9.45% active-use figure... Gender gap is charted
+(56%/36%, 2024), with an explicit caveat that a second source reports 57%/42% for the same
+round — flagged, not resolved. Urban/rural comparison is called out as **not possible**: every
+record has `location = "national"`.
+
+*Usage.* Mobile money penetration and digital payment adoption trends (2 data points each —
+directional, not fitted), plus a cross-sectional payment-use-cases snapshot.
+
+*Infrastructure.* Surfaces a "funnel" pattern — broad 4G coverage vs. lagging smartphone
+penetration (16%) and phone ownership (41%) — and flags that no true infrastructure-density
+indicator exists yet.
+
+*Events.* Full timeline + Access overlay, with an explicit note that Findex's 3-year survey
+cadence means Telebirr/Safaricom/M-Pesa's individual effects can't be separated.
+
+*Correlation.* Deliberately skips a full correlation heatmap (mathematically meaningless with
+only 2 shared years per pair) in favor of a co-movement table and an impact_link evidence
+summary.
+
+*6 key findings + a ranked data quality assessment* — see notebook for full detail.
+
+**Run time:** ~15 seconds.
