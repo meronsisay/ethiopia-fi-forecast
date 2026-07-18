@@ -43,17 +43,30 @@ ethiopia-fi-forecast/
 | `impact_link` | no                  | yes               | Modeled effect of an event (via `parent_id`) on an indicator |
 | `target`      | no                  | yes               | An official policy goal |
 
-**Data Exploration and Enrichment**
-- Notebook covers schema exploration, corrections, and enrichment (57 → 73 records)
-- 15 new observations, 1 new event, 3 new impact_links, all logged with sources
-- Idempotent enrichment helpers — safe to re-run
+### Data Exploration and Enrichment 
+- Dataset grew **57 → 73 records**: 15 new observations, 1 new event, 3 new impact_links.
+- Closed the biggest gap: `USG_DIGITAL_PAYMENT` had **zero** data points before enrichment;
+  now has 2 (2021: ~23%, 2024: 21%).
+- 1 correction + 1 unresolved conflict flagged (not guessed).
+- Enrichment helpers are idempotent — safe to re-run.
+
+### Exploratory Data Analysis 
+- **21 of 29 indicators** have only 1 observation.
+- Account ownership: 22% (2014) → 35% (2017) → 46% (2021) → **49% (2024)** — only **+3pp**
+  most recently.
+- Best-supported explanation: ~90M *registered* mobile accounts vs. **9.45%** *active* use.
+- Gender gap: ~20pp Access, **13pp** Usage.
+- Agent network: 200k → 216k (2022–2024) — a plausible bottleneck.
+- Infrastructure funnel: broad 4G vs. only 16% smartphone penetration.
+- Correlation analysis intentionally skips a full heatmap (statistically meaningless with 2
+  time points) in favor of a co-movement table + impact_link summary.
 
 
 ## Setup (Python 3.11)
 
 ```bash
 # 1. Clone
-git clone https://github.com/<your-username>/ethiopia-fi-forecast.git
+git clone https://github.com/meronsisay/ethiopia-fi-forecast.git
 cd ethiopia-fi-forecast
 
 # 2. Create & activate a virtual environment (python3.11 required)
