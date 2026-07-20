@@ -63,3 +63,35 @@ summary.
 *6 key findings + a ranked data quality assessment* — see notebook for full detail.
 
 **Run time:** ~15 seconds.
+
+## Event Impact Modeling
+
+*Understand the impact data.* `notebooks/impact_modeling.ipynb` loads all 17
+`impact_link` records and joins each one back to its parent `event` via `parent_id`,
+producing a single event → indicator → direction/magnitude/lag/evidence summary. Modeling
+logic lives in `src/impact_model.py`, not the notebook itself, so Task 4 can import and reuse
+it directly.
+
+*Model design.* Each event's effect on an indicator is a **linear ramp** — 0 at the event
+date, full estimated magnitude at `event_date + lag_months`, flat afterward — and effects on
+the same indicator from different events combine **additively**. Categorical magnitude
+(`low/medium/high`) maps to `2/5/10` percentage points, an explicit starting assumption, not
+something fit from data.
+
+*Comparable-country evidence.* 7 of 17 impact_links already cite a comparable country. A real
+gap was found and closed here: no link connected Telebirr's launch to `ACC_MM_ACCOUNT`. Added
+one, sourced from Jack & Suri's NBER paper on Kenya's M-Pesa (~65% household adoption within
+3 years) — deliberately left un-calibrated at first.
+
+*Validation.* Tested the naive model against the brief's own case: Telebirr → `ACC_MM_ACCOUNT`,
+2021→2024. **The naive, Kenya-calibrated model overshot badly** — predicted 18.6%, actual was
+9.45%, about 2x too high. Used the miss as the finding, not something to hide.
+
+*Refinement.* Solved for the dampening factor that makes the model match reality exactly
+(**0.342**), applied only to comparable-country effects — Ethiopia-specific empirical effects
+keep full weight. Documented as calibrated from a single data point, not a proven constant.
+
+*Deliverables.* Association matrix (heatmap + CSV, initial + refined, saved to
+`data/processed/`), full methodology writeup, and a calibration summary CSV for Task 4.
+
+**Run time:** ~10 seconds.
