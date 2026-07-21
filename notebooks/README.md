@@ -95,3 +95,31 @@ keep full weight. Documented as calibrated from a single data point, not a prove
 `data/processed/`), full methodology writeup, and a calibration summary CSV for Task 4.
 
 **Run time:** ~10 seconds.
+
+## Forecasting Access and Usage
+
+*Closing a gap first.* `notebooks/forecasting.ipynb` opens by adding the missing 2011
+`ACC_OWNERSHIP` data point (14%, Global Findex) — the brief frames this task around "5 Findex
+points over 13 years," but only 4 existed before this. Sourced, logged, and persisted back to
+the raw CSV (a mistake caught and fixed here — see below).
+
+*Model design.* Trend regression (linear-in-years, not log-linear, since Access's growth is
+decelerating) + Task 3's calibrated event-effect model + three scenarios varying the same
+dampening factor from Task 3. Implemented with numpy/scipy instead of statsmodels.
+
+*Forecast.* Access: ~53% (2025) → ~59% (2027). Usage: ~20% (2025) → ~19% (2027).
+
+*Two honest findings:*
+- `USG_DIGITAL_PAYMENT`'s CI correctly returns **undefined (NaN)** — 2 points, zero residual
+  degrees of freedom.
+- **Zero impact_links target `USG_DIGITAL_PAYMENT` directly** — its forecast gets no event
+  boost, and the downward trend is flagged as fragile, not confident.
+
+*A persistence bug, caught by checking disk state directly.* Neither this notebook nor Task
+3's originally saved new records back to the raw CSV — fixed in both, re-verified by running
+the full pipeline twice and confirming 75 records, zero duplicates.
+
+*Deliverables.* Forecast table with CI + scenarios, scenario fan chart, event-impact ranking,
+written interpretation.
+
+**Run time:** ~10 seconds.
