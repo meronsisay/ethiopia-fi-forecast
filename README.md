@@ -107,7 +107,30 @@ banking, stalled agent growth, later/fragmented competition).
 effects (e.g. Telebirr → `USG_TELEBIRR_USERS`) keep full weight, since nothing in the
 validation cast doubt on those specifically.
 
+> **In plain terms, for stakeholders:** I tested the model against one real historical
+> outcome before trusting it with a forecast. Our first attempt overestimated Ethiopia's
+> mobile money growth by roughly 2x. We corrected for that gap and now apply the correction
+> consistently — but because it's based on a single test case, treat every event-driven number
+> in this project as a reasonable estimate, not a precise prediction.
+
+**How to read the association matrix:**
+- **Rows** are events, **columns** are indicators. **Green cells** mean the event is estimated
+  to *increase* that indicator; a **blank cell** means no modeled relationship was found —
+  not that the effect is zero, just that no evidence links them (yet).
+- **Darker shading = larger estimated effect**, in percentage points, after calibration.
+- Confidence isn't shown directly on the matrix — pair it with the confidence table below.
+  Telebirr and Fayda are the two largest calibrated Access drivers; **nothing currently links
+  any event to Usage directly**, which is why the Usage forecast (Section 4) has no
+  event-driven component at all.
+
 ### 4. Forecasting Access and Usage (2025-2027)
+
+> **Plain-language summary:** I expect Access (account ownership) to reach roughly **59% by
+> 2027**, with moderate confidence — it's backed by 5 real data points and a validated
+> event-impact model. Our Usage (digital payment) forecast of **~19% by 2027** is much less
+> reliable: it's based on only 2 data points, and no event in our model — not Telebirr, not
+> M-Pesa — is currently linked to it directly, so this number is closer to a rough guess than
+> a solid prediction. Read the technical detail below before quoting either number externally.
 
 Closed one more gap first: added the missing 2011 Access data point (14%, Global Findex), so
 the trend regression spans the full "5 points over 13 years" the brief describes.
@@ -158,10 +181,10 @@ ethiopia-fi-forecast/
 │   ├── raw/                          # Only ethiopia_fi_unified_data.csv is tracked (enriched dataset)
 │   └── processed/                    # Task 3/4 output: association matrices, calibration, forecast table (tracked)
 ├── notebooks/
-│   ├── data_exploration_enrichment.ipynb  
-│   ├── eda.ipynb                           
-│   ├── impact_modeling.ipynb               
-│   └── forecasting.ipynb                 
+│   ├── data_exploration_enrichment.ipynb   # Task 1
+│   ├── eda.ipynb                           # Task 2
+│   ├── impact_modeling.ipynb               # Task 3
+│   └── forecasting.ipynb                   # Task 4
 ├── src/
 │   ├── data_loader.py                 # Load + explore the unified dataset
 │   ├── enrichment.py                  # Idempotent add_record() / append_log_entry() helpers
@@ -198,6 +221,10 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
+**Run the notebooks**: `data/raw/ethiopia_fi_unified_data.csv` is already the enriched
+(75-record) version — nothing needs to run before any notebook to reproduce it. Run them
+in order (01 → 04) only if you want to verify or extend the enrichment/modeling yourself; all
+are idempotent, so re-running is always safe.
 
 **Run the dashboard**:
 ```bash
@@ -205,4 +232,3 @@ streamlit run dashboard/app.py
 ```
 Run this from the project root (not from inside `dashboard/`) so `.streamlit/config.toml` is
 picked up correctly. Then open the local URL Streamlit prints (usually http://localhost:8501).
-
