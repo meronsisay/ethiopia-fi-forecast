@@ -107,7 +107,7 @@ banking, stalled agent growth, later/fragmented competition).
 effects (e.g. Telebirr → `USG_TELEBIRR_USERS`) keep full weight, since nothing in the
 validation cast doubt on those specifically.
 
-> **In plain terms, for stakeholders:** I tested the model against one real historical
+> - I tested the model against one real historical
 > outcome before trusting it with a forecast. Our first attempt overestimated Ethiopia's
 > mobile money growth by roughly 2x. We corrected for that gap and now apply the correction
 > consistently — but because it's based on a single test case, treat every event-driven number
@@ -125,7 +125,7 @@ validation cast doubt on those specifically.
 
 ### 4. Forecasting Access and Usage (2025-2027)
 
-> **Plain-language summary:** I expect Access (account ownership) to reach roughly **59% by
+> **summary:** I expect Access (account ownership) to reach roughly **59% by
 > 2027**, with moderate confidence — it's backed by 5 real data points and a validated
 > event-impact model. Our Usage (digital payment) forecast of **~19% by 2027** is much less
 > reliable: it's based on only 2 data points, and no event in our model — not Telebirr, not
