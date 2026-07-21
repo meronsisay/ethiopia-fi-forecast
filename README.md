@@ -20,11 +20,13 @@ ethiopia-fi-forecast/
 │   ├── raw/                          # Only ethiopia_fi_unified_data.csv is tracked (enriched dataset)
 │   └── processed/                    # Cleaned, analysis-ready data (gitignored, regenerable)
 ├── notebooks/
-│   ├── 01_data_exploration_enrichment.ipynb   # Task 1
-│   └── 02_eda.ipynb                           # Task 2
+│   ├── data_exploration_enrichment.ipynb   # Task 1
+│   ├── eda.ipynb                           # Task 2
+│   └── impact_modeling.ipynb               # Task 3
 ├── src/
 │   ├── data_loader.py                 # Load + explore the unified dataset
-│   └── enrichment.py                  # Idempotent add_record() / append_log_entry() helpers
+│   ├── enrichment.py                  # Idempotent add_record() / append_log_entry() helpers
+│   └── impact_model.py                # Ramp + additive event-effect model
 ├── dashboard/app.py                   # Streamlit dashboard
 ├── tests/
 ├── models/                            # Saved model artifacts (gitignored, regenerable)
@@ -105,7 +107,23 @@ pip install -r requirements.txt
   co-movement table and `impact_link` evidence summary instead.
 - 6 key insights and a 5-point ranked data-quality assessment documented in `eda.ipynb`.
 
+### Event Impact Modeling 
 
-
+- Joined all 17 `impact_link` records back to their parent events, producing a full
+  event → indicator → direction/magnitude/lag/evidence summary (`src/impact_model.py`).
+- Modeled each event's effect as a **linear ramp** (0 at the event date, full magnitude at
+  `event_date + lag_months`, flat after) with effects combining **additively** across events.
+- Found and closed a real gap: no link connected Telebirr's launch to `ACC_MM_ACCOUNT`, despite
+  Telebirr being the product that created Ethiopia's mobile money market. Added one, sourced
+  from comparable-country evidence (Kenya's M-Pesa, ~65% household adoption within 3 years).
+- **Validated against the brief's own test case** (Telebirr → `ACC_MM_ACCOUNT`, 2021→2024):
+  the naive, Kenya-calibrated model overshot badly — predicted 18.6%, actual was 9.45%, ~2x
+  too high. Used the miss as the finding: Ethiopia's adoption pace runs at roughly a third of
+  Kenya's, consistent with Task 2's evidence (pre-existing banking, stalled agent growth).
+- **Refined** by solving for the dampening factor that matches the actual value exactly
+  (**0.342**), applied only to comparable-country-sourced effects — Ethiopia-specific
+  empirical effects keep full weight. Documented as calibrated from one data point, not proven.
+- Event-indicator association matrix (heatmap + CSV, initial and refined) saved to
+  `data/processed/` — its first real use in this project.
 
 
