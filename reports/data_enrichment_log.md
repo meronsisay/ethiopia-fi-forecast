@@ -180,3 +180,22 @@ closely related records).
 - **collection_date:** 2026-07-17
 - **notes:** Allowing banks to launch mobile-money subsidiaries is a plausible but indirect, slow-moving driver of account growth -- low confidence, no direct evidence yet.
 
+
+### `IMP_0018` � `impact_link` � Telebirr launch -> ACC_MM_ACCOUNT (new, comparable-country based)
+
+- **source_url:** https://www.nber.org/system/files/working_papers/w16721/w16721.pdf
+- **original_text:** "M-PESA has grown rapidly, reaching approximately 65 percent of Kenyan households by the end of 2009."
+- **confidence:** low
+- **collected_by:** Meron Sisay
+- **collection_date:** 2026-07-18
+- **notes:** Fills a real gap -- no prior link connected Telebirr, the product that created Ethiopia's mobile money market, to ACC_MM_ACCOUNT. Deliberately left as a naive, un-calibrated estimate here; Section 5/6 test and refine it against actual data.
+
+### `REC_0046` � `observation` � Account Ownership Rate, 2011 (closes the 5th-point gap)
+
+- **source_url:** https://www.worldbank.org/en/publication/globalfindex
+- **original_text:** "Account ownership in Ethiopia was 14% in 2011 (Global Findex)."
+- **confidence:** high
+- **collected_by:** Meron Sisay
+- **collection_date:** 2026-07-20
+- **notes:** Needed for Task 4's trend regression to actually use the full 2011-2024 span the brief describes.
+
